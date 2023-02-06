@@ -25,9 +25,25 @@
   cursor: pointer;
 }
 
+.task input:hover:not(:checked) {
+  border-color: var(--blue-500);
+}
+
 .task input:checked {
   background-color: var(--purple-500);
   border: none;
+}
+
+.task input:checked:hover {
+  background-color: var(--purple-100);
+}
+
+.task input:focus {
+  box-shadow: 0 0 0 2px var(--blue-100);
+}
+
+.task input:focus:checked {
+  box-shadow: 0 0 0 2px var(--purple-100);
 }
 
 .task p {
