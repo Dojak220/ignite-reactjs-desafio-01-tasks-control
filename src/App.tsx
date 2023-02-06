@@ -1,13 +1,23 @@
+import {v4 as uuidv4} from 'uuid';
+
 import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react"
-import { PlusCircle } from "phosphor-react"
+import { PlusCircle, ClipboardText } from "phosphor-react"
 import { Header } from "./components/Header"
 
 import "./global.css"
 
 import styles from "./App.module.css"
+import { Task, ITask } from "./components/Task"
+import { EmptyMessage } from './components/EmptyMessage';
+
+const taskList: ITask[] = [
+  {id: uuidv4(), task: "Fazer html", completed:false},
+  {id: uuidv4(), task: "Fazer css", completed:false},
+  {id: uuidv4(), task: "Fazer js", completed:false},
+]
 
 export default function App() {
-  const [tasks, setTasks] = useState(["Tarefa 1"])
+  const [tasks, setTasks] = useState<ITask[]>(taskList)
   const [newTaskText, setNewTaskText] = useState("")
 
   function handleNewTaskChange(event: ChangeEvent<HTMLTextAreaElement>) {
@@ -22,15 +32,36 @@ export default function App() {
   function handleCreateNewTask(event: FormEvent) {
     event.preventDefault();
 
-    setTasks([...tasks, newTaskText])
+    const newTask = {id: uuidv4(), task: newTaskText, completed: false}
+
+    setTasks([...tasks, newTask])
 
     setNewTaskText("")
   }
 
+  function handleCheckChange(id: string) {
+    setTasks(tasks => tasks.map(task => {
+      if (task.id === id) {
+        return { ...task, completed: !task.completed };
+      }
+      return task;
+    }))
+  }
+
+  function deleteTask(taskToDeleteId: string) {
+    const filteredTasks = tasks.filter((task) =>
+    task.id !== taskToDeleteId
+    )
+
+    setTasks(filteredTasks)
+  }
+
+  const isTaskListEmpty = tasks.length == 0
+
   return (
     <>
       <Header />
-      <main>
+      <main className={styles.wrapper}>
         <form onSubmit={handleCreateNewTask}  className={styles.taskForm}>
           <textarea
             name="task"
@@ -40,28 +71,31 @@ export default function App() {
             required
             placeholder="Adicione uma nova tarefa"
           />
-          <div className={styles.createButton}>
+          <div>
             <button type="submit">
               Criar
               <PlusCircle size={16} />
             </button>
           </div>
         </form>
-        <div>
-          Tarefas criadas <span>0</span>
-        </div>
-        <div>
-          Concluídas <span>0</span>
-        </div>
+          <div className={styles.taskList}>
+            <div className={styles.taskListInfo}>
+              <p>
+                Tarefas criadas <span>0</span>
+              </p>
+              <p>
+                Concluídas <span>0</span>
+              </p>
+            </div>
+            {
+              !isTaskListEmpty ?
+              <div className={styles.taskItems}>
+                {tasks.map(task => <Task key={task.id} task={task} onToggleChecked={() => handleCheckChange(task.id)} onDeleteTask={() => deleteTask(task.id)}/>)}
+              </div> :
+              <EmptyMessage />
+            }
+          </div>
       </main>
-      <footer>
-        <div>
-          Você ainda não tem tarefas cadastradas
-        </div>
-        <div>
-          Crie tarefas e organize seus itens a fazer
-        </div>
-      </footer>
     </>
   )
 }
