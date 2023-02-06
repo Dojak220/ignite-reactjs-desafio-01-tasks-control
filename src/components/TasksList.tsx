@@ -3,18 +3,27 @@ import { ITask, Task } from "./Task"
 import styles from "./TasksList.module.css"
 
 interface TasksListProps {
-  tasks: ITask[],
-  onCheckChange: (id: string) => void
-  onDeleteTask: (id: string) => void
+  state: [ITask[], React.Dispatch<React.SetStateAction<ITask[]>>],
 }
 
-export function TasksList({tasks, onCheckChange, onDeleteTask}: TasksListProps) {
+export function TasksList({state}: TasksListProps) {
+  const [tasks, setTasks] = state
+
   function handleCheckChange(id: string) {
-    onCheckChange(id)
+    setTasks(tasks => tasks.map(task => {
+      if (task.id === id) {
+        return { ...task, completed: !task.completed };
+      }
+      return task;
+    }))
   }
 
   function deleteTask(id: string) {
-    onDeleteTask(id)
+    const filteredTasks = tasks.filter((task) =>
+      task.id !== id
+    )
+
+    setTasks(filteredTasks)
   }
 
   return (

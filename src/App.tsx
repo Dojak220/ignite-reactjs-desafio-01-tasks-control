@@ -41,23 +41,6 @@ export default function App() {
     setNewTaskText("")
   }
 
-  function handleCheckChange(id: string) {
-    setTasks(tasks => tasks.map(task => {
-      if (task.id === id) {
-        return { ...task, completed: !task.completed };
-      }
-      return task;
-    }))
-  }
-
-  function deleteTask(taskToDeleteId: string) {
-    const filteredTasks = tasks.filter((task) =>
-      task.id !== taskToDeleteId
-    )
-
-    setTasks(filteredTasks)
-  }
-
   const isTaskListEmpty = tasks.length == 0
 
   return (
@@ -91,7 +74,7 @@ export default function App() {
           </div>
           {
             !isTaskListEmpty ?
-              <TasksList tasks={tasks} onCheckChange={handleCheckChange} onDeleteTask={deleteTask} /> :
+              <TasksList state={[tasks, setTasks]} /> :
               <EmptyMessage />
           }
         </div>
