@@ -7,56 +7,6 @@
   margin: 0px calc(352/1440*100vw);
 }
 
-.taskForm {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: -1.75rem;
-  margin-bottom: 4rem;
-  
-  width: 100%;
-}
-
-.taskForm textarea {
-  display: flex;
-  background: var(--gray-500);
-  color: var(--gray-100);
-  border: 1px solid var(--gray-700);
-  border-radius: 8px;
-  
-  width: 100%;
-  height: 3.25rem;
-  padding: 0.875rem 0 0 1rem;
-  
-  font-size: 1rem;
-  
-  resize: none;
-}
-
-.taskForm button[type=submit] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-  background: var(--blue-500);
-  color: var(--gray-100);
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: bold;
-  
-  height: 3.25rem;
-  padding: 1rem;
-  gap: 8px;
-  cursor: pointer;
-
-  transition: background-color 0.05s;
-}
-
-.taskForm button:hover {
-  background: var(--blue-100);
-}
-
 .taskList {
   display: flex;
   flex-direction: column;

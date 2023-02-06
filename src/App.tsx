@@ -1,10 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react"
-import { PlusCircle } from "phosphor-react"
+import { useState } from "react"
+
+import { ITask } from "./components/Task"
 
 import { Header } from "./components/Header"
-import { ITask } from "./components/Task"
+import { NewTaskForm } from './components/NewTaskForm';
 import { TasksList } from './components/TasksList';
 import { EmptyMessage } from './components/EmptyMessage';
 
@@ -20,49 +21,17 @@ const taskList: ITask[] = [
 
 export default function App() {
   const [tasks, setTasks] = useState<ITask[]>(taskList)
-  const [newTaskText, setNewTaskText] = useState("")
 
-  function handleNewTaskChange(event: ChangeEvent<HTMLTextAreaElement>) {
-    event.target.setCustomValidity("")
-    setNewTaskText(event.target.value)
-  }
-
-  function handleNewTaskInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
-    event.target.setCustomValidity("Preencha este campo!!")
-  }
-
-  function handleCreateNewTask(event: FormEvent) {
-    event.preventDefault();
-
-    const newTask = { id: uuidv4(), task: newTaskText, completed: false }
-
-    setTasks([...tasks, newTask])
-
-    setNewTaskText("")
+  function handleNewTask(newTask: ITask) {
+    setTasks((tasks) => [...tasks, newTask])
   }
 
   const isTaskListEmpty = tasks.length == 0
-
   return (
     <>
       <Header />
       <main className={styles.wrapper}>
-        <form onSubmit={handleCreateNewTask} className={styles.taskForm}>
-          <textarea
-            name="task"
-            value={newTaskText}
-            onChange={handleNewTaskChange}
-            onInvalid={handleNewTaskInvalid}
-            required
-            placeholder="Adicione uma nova tarefa"
-          />
-          <div>
-            <button type="submit">
-              Criar
-              <PlusCircle size={16} />
-            </button>
-          </div>
-        </form>
+        <NewTaskForm onNewTask={handleNewTask} />
         <div className={styles.taskList}>
           <div className={styles.taskListInfo}>
             <p>
