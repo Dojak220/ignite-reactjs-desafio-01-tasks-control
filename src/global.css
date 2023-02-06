@@ -16,7 +16,6 @@
   --red-500: #E25858;
 }
 
-
 :focus {
   outline: transparent;
   box-shadow: 0 0 0 2px var(--gray-100);
@@ -40,4 +39,10 @@ body, input, textarea, button {
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 87.5%
+  }
 }

@@ -7,7 +7,6 @@ import { ITask } from "./components/Task"
 import { Header } from "./components/Header"
 import { NewTaskForm } from './components/NewTaskForm';
 import { TasksList } from './components/TasksList';
-import { EmptyMessage } from './components/EmptyMessage';
 
 import "./global.css"
 
@@ -26,27 +25,12 @@ export default function App() {
     setTasks((tasks) => [...tasks, newTask])
   }
 
-  const isTaskListEmpty = tasks.length == 0
   return (
     <>
       <Header />
       <main className={styles.wrapper}>
         <NewTaskForm onNewTask={handleNewTask} />
-        <div className={styles.taskList}>
-          <div className={styles.taskListInfo}>
-            <p>
-              Tarefas criadas <span>0</span>
-            </p>
-            <p>
-              Concluídas <span>0</span>
-            </p>
-          </div>
-          {
-            !isTaskListEmpty ?
-              <TasksList state={[tasks, setTasks]} /> :
-              <EmptyMessage />
-          }
-        </div>
+        <TasksList state={[tasks, setTasks]} />
       </main>
     </>
   )
