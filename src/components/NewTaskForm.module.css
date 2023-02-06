@@ -47,3 +47,24 @@
 .taskForm button:hover {
   background: var(--blue-100);
 }
+
+
+@media (max-width: 768px) {
+  .taskForm {
+    margin-bottom: 1.5rem;
+  }
+  .taskForm textarea {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 300px) {
+  .taskForm {
+    display: block;
+  }
+  
+  .taskForm button[type=submit] {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}

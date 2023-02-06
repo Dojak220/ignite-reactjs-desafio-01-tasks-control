@@ -7,8 +7,8 @@
   margin: 0px calc(352/1440*100vw);
 }
 
-
-
-
-  margin-bottom: 1.5rem;
+@media (max-width: 600px) {
+  .wrapper {
+    margin: 0px 1rem;
+  }
 }
