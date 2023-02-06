@@ -1,19 +1,21 @@
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react"
-import { PlusCircle, ClipboardText } from "phosphor-react"
+import { PlusCircle } from "phosphor-react"
+
 import { Header } from "./components/Header"
+import { ITask } from "./components/Task"
+import { TasksList } from './components/TasksList';
+import { EmptyMessage } from './components/EmptyMessage';
 
 import "./global.css"
 
 import styles from "./App.module.css"
-import { Task, ITask } from "./components/Task"
-import { EmptyMessage } from './components/EmptyMessage';
 
 const taskList: ITask[] = [
-  {id: uuidv4(), task: "Fazer html", completed:false},
-  {id: uuidv4(), task: "Fazer css", completed:false},
-  {id: uuidv4(), task: "Fazer js", completed:false},
+  { id: uuidv4(), task: "Fazer html", completed: false },
+  { id: uuidv4(), task: "Fazer css", completed: false },
+  { id: uuidv4(), task: "Fazer js", completed: false },
 ]
 
 export default function App() {
@@ -32,7 +34,7 @@ export default function App() {
   function handleCreateNewTask(event: FormEvent) {
     event.preventDefault();
 
-    const newTask = {id: uuidv4(), task: newTaskText, completed: false}
+    const newTask = { id: uuidv4(), task: newTaskText, completed: false }
 
     setTasks([...tasks, newTask])
 
@@ -50,7 +52,7 @@ export default function App() {
 
   function deleteTask(taskToDeleteId: string) {
     const filteredTasks = tasks.filter((task) =>
-    task.id !== taskToDeleteId
+      task.id !== taskToDeleteId
     )
 
     setTasks(filteredTasks)
@@ -62,7 +64,7 @@ export default function App() {
     <>
       <Header />
       <main className={styles.wrapper}>
-        <form onSubmit={handleCreateNewTask}  className={styles.taskForm}>
+        <form onSubmit={handleCreateNewTask} className={styles.taskForm}>
           <textarea
             name="task"
             value={newTaskText}
@@ -78,23 +80,21 @@ export default function App() {
             </button>
           </div>
         </form>
-          <div className={styles.taskList}>
-            <div className={styles.taskListInfo}>
-              <p>
-                Tarefas criadas <span>0</span>
-              </p>
-              <p>
-                Concluídas <span>0</span>
-              </p>
-            </div>
-            {
-              !isTaskListEmpty ?
-              <div className={styles.taskItems}>
-                {tasks.map(task => <Task key={task.id} task={task} onToggleChecked={() => handleCheckChange(task.id)} onDeleteTask={() => deleteTask(task.id)}/>)}
-              </div> :
-              <EmptyMessage />
-            }
+        <div className={styles.taskList}>
+          <div className={styles.taskListInfo}>
+            <p>
+              Tarefas criadas <span>0</span>
+            </p>
+            <p>
+              Concluídas <span>0</span>
+            </p>
           </div>
+          {
+            !isTaskListEmpty ?
+              <TasksList tasks={tasks} onCheckChange={handleCheckChange} onDeleteTask={deleteTask} /> :
+              <EmptyMessage />
+          }
+        </div>
       </main>
     </>
   )
