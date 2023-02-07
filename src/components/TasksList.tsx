@@ -5,12 +5,13 @@ import { ITask, Task } from "./Task"
 import styles from "./TasksList.module.css"
 
 interface TasksListProps {
-  state: [ITask[], React.Dispatch<React.SetStateAction<ITask[]>>],
+  tasks: ITask[],
+  onTasksChange: (tasks: ITask[]) => void;
 }
 
-export function TasksList({ state }: TasksListProps) {
-  const [tasks, setTasks] = state
-  const [completedTasksCount, setCompletedTasksCount] = useState(tasks.filter((task => task.completed)).length)
+export function TasksList({ tasks, onTasksChange }: TasksListProps) {
+  const completedTasksInitialCount = tasks.filter((task => task.completed)).length
+  const [completedTasksCount, setCompletedTasksCount] = useState(completedTasksInitialCount)
 
   function handleCheckChange(id: string) {
     const tasksWithCheckChanged = tasks.map(task => {
@@ -22,7 +23,7 @@ export function TasksList({ state }: TasksListProps) {
       return task;
     })
 
-    setTasks(tasksWithCheckChanged)
+    onTasksChange(tasksWithCheckChanged)
   }
 
   function deleteTask(id: string) {
@@ -36,7 +37,7 @@ export function TasksList({ state }: TasksListProps) {
       }
     )
 
-    setTasks(filteredTasks)
+    onTasksChange(filteredTasks)
   }
 
 

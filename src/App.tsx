@@ -25,12 +25,16 @@ export default function App() {
     setTasks((tasks) => [...tasks, newTask])
   }
 
+  function handleTasksChanged(newTasks: ITask[]) {
+    setTasks(newTasks)
+  }
+
   return (
     <>
       <Header />
       <main className={styles.wrapper}>
         <NewTaskForm onNewTask={handleNewTask} />
-        <TasksList state={[tasks, setTasks]} />
+        <TasksList tasks={[...tasks]} onTasksChange={handleTasksChanged} />
       </main>
     </>
   )
