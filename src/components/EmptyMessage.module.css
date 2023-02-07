@@ -9,11 +9,24 @@
   color: var(--gray-300);
   border-top: 1px solid var(--gray-400);
   border-radius: 8px;
-  
+
   font-size: 1rem;
 }
 
 .emptyList :first-child {
   color: var(--gray-300);
   margin-bottom: 1rem;
+}
+
+@media (max-width: 300px) {
+  .emptyList p {
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .emptyList {
+    padding: 2rem 0px;
+    font-size: 0.875rem;
+  }
 }
